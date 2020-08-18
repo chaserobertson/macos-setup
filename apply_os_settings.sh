@@ -19,10 +19,6 @@ sudo scutil --set HostName $mac_os_name
 sudo scutil --set LocalHostName $mac_os_name
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $mac_os_name
 
-printf "Getting rid of enrollment agent..\n"
-sudo launchctl remove com.apple.ManagedClientAgent.enrollagent
-sudo launchctl unload com.apple.ManagedClientAgent.enrollagent
-
 printf "Disabling guest user..\n"
 sudo dscl . -delete /Users/Guest
 sudo security delete-generic-password -a Guest -s com.apple.loginwindow.guest-account -D "application password" /Library/Keychains/System.keychain
@@ -55,10 +51,6 @@ printf "System - Require password immediately after sleep or screen saver begins
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 
-printf "System - Hot Corner: Bottom Right - Put display to sleep"
-defaults write ~/Library/Preferences/com.apple.dock.plist wvous-br-corner -int 10
-defaults write ~/Library/Preferences/com.apple.dock.plist wvous-br-modifier -int 0
-
 printf "System - Avoid creating .DS_Store files on network & USB volumes\n"
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
@@ -78,19 +70,11 @@ defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int
 printf "Dock - Remove all default app icons\n"
 defaults write com.apple.dock persistent-apps -array
 
-printf "Dock - Don't show recently used apps"
-defaults write com.apple.dock show-recents -bool false
-
 printf "Dock - Automatically hide and show\n"
 defaults write com.apple.dock autohide -bool true
 
 printf "Dock - Remove the auto-hiding delay\n"
 defaults write com.apple.dock autohide-delay -float 0
-
-printf "Dock - Title size and magnification\n"
-defaults write com.apple.dock magnification -bool true
-defaults write com.apple.dock tilesize -int 48
-defaults write com.apple.dock largesize -int 64
 
 printf "Dock - Don’t show Dashboard as a Space\n"
 defaults write com.apple.dock "dashboard-in-overlay" -bool true
@@ -107,9 +91,6 @@ defaults write com.apple.finder AppleShowAllFiles -bool true
 printf "Finder - Show filename extensions\n"
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-printf "Finder - Disable the warning when changing a file extension\n"
-defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
-
 printf "Finder - Show path bar\n"
 defaults write com.apple.finder ShowPathbar -bool true
 
@@ -117,7 +98,7 @@ printf "Finder - Show status bar\n"
 defaults write com.apple.finder ShowStatusBar -bool true
 
 printf "Finder - Use list view in all Finder windows\n"
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
 
 printf "Finder - Allow text selection in Quick Look\n"
 defaults write com.apple.finder QLEnableTextSelection -bool true
@@ -151,9 +132,6 @@ defaults write com.apple.TextEdit RichText -int 0
 printf "TextEdit - Open and save files as UTF-8 encoding\n"
 defaults write com.apple.TextEdit PlainTextEncoding -int 4
 defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
-
-printf "Trackpad - Disable natural scroll\n"
-defaults write -g com.apple.swipescrolldirection -bool NO
 
 printf "Printer - Expand print panel by default\n"
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
