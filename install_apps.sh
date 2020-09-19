@@ -26,6 +26,7 @@ brew install zsh zsh-completions zsh-autosuggestions zsh-syntax-highlighting
 printf "brew: Installing apps\n"
 brew cask install activitywatch
 brew cask install atom
+brew cask install balenaetcher
 brew cask install evernote
 brew cask install firefox
 brew cask install google-backup-and-sync
