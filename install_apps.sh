@@ -15,17 +15,18 @@ xcode-select --install
 
 printf "brew: Installing cli packages\n"
 brew install git
-brew install mas            # Apple store cli
+#brew install mas            # Apple store cli
 brew install npm
-brew install wakeonlan
+#brew install wakeonlan
 brew install wget
+brew install python3
 
 # Install ZSH
 brew install zsh zsh-completions zsh-autosuggestions zsh-syntax-highlighting
 
 printf "brew: Installing apps\n"
 #brew cask install activitywatch
-brew cask install atom
+#brew cask install atom
 brew cask install balenaetcher
 brew cask install evernote
 brew cask install firefox
@@ -36,7 +37,7 @@ brew cask install lastpass
 brew cask install lastpass-cli
 brew cask install spotify
 brew cask install the-unarchiver
-brew cask install tor-browser
+#brew cask install tor-browser
 brew cask install virtualbox
 brew cask install virtualbox-extension-pack
 brew cask install visual-studio-code
