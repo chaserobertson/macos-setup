@@ -21,27 +21,24 @@ brew install npm
 brew install wget
 brew install python3
 
-# Install ZSH
-brew install zsh zsh-completions zsh-autosuggestions zsh-syntax-highlighting
-
 printf "brew: Installing apps\n"
-#brew cask install activitywatch
-#brew cask install atom
-brew cask install balenaetcher
-brew cask install evernote
-brew cask install firefox
-brew cask install google-backup-and-sync
-brew cask install google-chrome
-brew cask install iterm2
-brew cask install lastpass
-brew cask install lastpass-cli
-brew cask install spotify
-brew cask install the-unarchiver
-#brew cask install tor-browser
-brew cask install virtualbox
-brew cask install virtualbox-extension-pack
-brew cask install visual-studio-code
-brew cask install vlc
-#brew cask install windscribe
-brew cask install wireshark
-brew cask install zoomus
+#brew install activitywatch &
+#brew install atom &
+brew install balenaetcher &
+brew install evernote &
+brew install firefox &
+brew install google-backup-and-sync &
+brew install google-chrome &
+brew install iterm2 &
+brew install lastpass &
+brew install lastpass-cli &
+brew install spotify &
+brew install the-unarchiver &
+#brew install tor-browser &
+brew install virtualbox &
+brew install virtualbox-extension-pack &
+brew install visual-studio-code &
+brew install vlc &
+#brew install windscribe &
+brew install wireshark &
+brew install zoomus
