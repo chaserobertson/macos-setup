@@ -16,7 +16,7 @@ xcode-select --install
 printf "brew: Installing cli packages\n"
 brew install git
 #brew install mas            # Apple store cli
-brew install npm
+#brew install npm
 #brew install wakeonlan
 brew install wget
 brew install python3
@@ -25,13 +25,10 @@ printf "brew: Installing apps\n"
 #brew install activitywatch &
 #brew install atom &
 brew install balenaetcher &
-brew install evernote &
 brew install firefox &
-brew install google-backup-and-sync &
+brew install google-drive &
 brew install google-chrome &
 brew install iterm2 &
-brew install lastpass &
-brew install lastpass-cli &
 brew install spotify &
 brew install the-unarchiver &
 #brew install tor-browser &
