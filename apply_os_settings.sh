@@ -67,8 +67,10 @@ sudo defaults write /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist 
 printf "Bluetooth - Increase sound quality for headphones/headsets\n"
 defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
 
-printf "Dock - Remove all default app icons\n"
+# ----- modify dock ------
+printf "Dock - Remove all default app icons and recent items\n"
 defaults write com.apple.dock persistent-apps -array
+defaults delete com.apple.dock recent-apps
 
 printf "Dock - Automatically hide and show\n"
 defaults write com.apple.dock autohide -bool true
@@ -76,11 +78,17 @@ defaults write com.apple.dock autohide -bool true
 printf "Dock - Remove the auto-hiding delay\n"
 defaults write com.apple.dock autohide-delay -float 0
 
-printf "Dock - Don’t show Dashboard as a Space\n"
+printf "Dock - Don't show Dashboard as a Space\n"
 defaults write com.apple.dock "dashboard-in-overlay" -bool true
+
+killall Dock
+
+# ------------------------
 
 printf "iCloud - Save to disk by default\n"
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+# ----- modify finder ------
 
 printf "Finder - Show the $HOME/Library folder\n"
 chflags nohidden $HOME/Library
@@ -103,28 +111,7 @@ defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
 printf "Finder - Allow text selection in Quick Look\n"
 defaults write com.apple.finder QLEnableTextSelection -bool true
 
-printf "Safari - Set home page to 'about:blank' for faster loading\n"
-defaults write com.apple.Safari HomePage -string "about:blank"
-
-printf "Safari - Use Contains instead of Starts With in search banners\n"
-defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
-
-printf "Safari - Enable debug menu\n"
-defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
-
-printf "Safari - Enable the Develop menu and the Web Inspector\n"
-defaults write com.apple.Safari IncludeDevelopMenu -bool true
-defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
-
-printf "Safari - Add a context menu item for showing the Web Inspector in web views\n"
-defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
-
-printf "Safari - Disable sending search queries to Apple.\n"
-defaults write com.apple.Safari UniversalSearchEnabled -bool false
-
-printf "Chrome - Prevent native print dialog, use system dialog instead\n"
-defaults write com.google.Chrome DisablePrintPreview -boolean true
+# --------------------------
 
 printf "TextEdit - Use plain text mode for new documents\n"
 defaults write com.apple.TextEdit RichText -int 0
@@ -142,10 +129,14 @@ defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 printf "Game Center - Disable Game Center\n"
 defaults write com.apple.gamed Disabled -bool true
 
-printf "App Store - Enable the WebKit Developer Tools in the Mac App Store\n"
-defaults write com.apple.appstore WebKitDeveloperExtras -bool true
+printf "Menu Bar - Enable 24-hr time\n"
+defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM HH:mm:ss"
 
-printf "App Store - Enable Debug Menu in the Mac App Store\n"
-defaults write com.apple.appstore ShowDebugMenu -bool true
+printf "Chrome - Prevent native print dialog, use system dialog instead\n"
+defaults write com.google.Chrome DisablePrintPreview -boolean true
+
+gh auth login
+terminal-notifier -title "OS Config" -message "Log in to gh"
 
 printf "You should reboot now\n"
+terminal-notifier -title "OS Config" -subtitle "Finished" -message "Restart now?" -execute reboot

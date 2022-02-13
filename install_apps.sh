@@ -1,5 +1,8 @@
 #! /usr/bin/env bash
 
+gem install terminal-notifier
+terminal-notifier -title "Terminal Notifier" -subtitle "Installed" -message "pls allow"
+
 # Installs Homebrew software.
 if ! command -v brew > /dev/null; then
     ruby -e "$(curl --location --fail --show-error https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -15,27 +18,23 @@ xcode-select --install
 
 printf "brew: Installing cli packages\n"
 brew install git
-#brew install mas            # Apple store cli
-#brew install npm
-#brew install wakeonlan
 brew install wget
 brew install python3
 
 printf "brew: Installing apps\n"
-#brew install activitywatch &
-#brew install atom &
 brew install balenaetcher &
 brew install firefox &
+brew install gh &
 brew install google-drive &
 brew install google-chrome &
-brew install iterm2 &
 brew install spotify &
-brew install the-unarchiver &
-#brew install tor-browser &
+brew install terminal-notifier &
 brew install virtualbox &
 brew install virtualbox-extension-pack &
 brew install visual-studio-code &
 brew install vlc &
-#brew install windscribe &
+brew install windscribe &
 brew install wireshark &
 brew install zoomus
+
+terminal-notifier -title "App Installer" -subtitle "Finished" -message "Restart now?" -execute reboot
