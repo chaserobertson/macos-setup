@@ -110,6 +110,8 @@ defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
 printf "Finder - Allow text selection in Quick Look\n"
 defaults write com.apple.finder QLEnableTextSelection -bool true
 
+killall Finder
+
 # --------------------------
 
 printf "TextEdit - Use plain text mode for new documents\n"
@@ -135,7 +137,3 @@ printf "Chrome - Prevent native print dialog, use system dialog instead\n"
 defaults write com.google.Chrome DisablePrintPreview -boolean true
 
 gh auth login
-terminal-notifier -title "OS Config" -message "Log in to gh"
-
-printf "You should reboot now\n"
-terminal-notifier -title "OS Config" -subtitle "Finished" -message "Restart now?" -execute reboot
