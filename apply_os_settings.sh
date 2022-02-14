@@ -133,7 +133,4 @@ defaults write com.apple.gamed Disabled -bool true
 printf "Menu Bar - Enable 24-hr time\n"
 defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM HH:mm:ss"
 
-printf "Chrome - Prevent native print dialog, use system dialog instead\n"
-defaults write com.google.Chrome DisablePrintPreview -boolean true
-
 gh auth login
