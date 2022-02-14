@@ -69,8 +69,7 @@ defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int
 
 # ----- modify dock ------
 printf "Dock - Remove all default app icons and recent items\n"
-defaults write com.apple.dock persistent-apps -array
-defaults delete com.apple.dock recent-apps
+defaults write com.apple.dock static-only -bool TRUE
 
 printf "Dock - Automatically hide and show\n"
 defaults write com.apple.dock autohide -bool true
