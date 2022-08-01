@@ -92,8 +92,8 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 printf "Finder - Show the $HOME/Library folder\n"
 chflags nohidden $HOME/Library
 
-printf "Finder - Show hidden files\n"
-defaults write com.apple.finder AppleShowAllFiles -bool true
+#printf "Finder - Show hidden files\n"
+#defaults write com.apple.finder AppleShowAllFiles -bool true
 
 printf "Finder - Show filename extensions\n"
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
