@@ -65,7 +65,15 @@ printf "System - Disable Bonjour\n"
 sudo defaults write /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist ProgramArguments -array-add "-NoMulticastAdvertisements"
 
 printf "Bluetooth - Increase sound quality for headphones/headsets\n"
-defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
+defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Max (editable)" 80
+defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" 80
+defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool (editable)" 80
+defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool Min (editable)" 80
+defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool" 80
+defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Max" 80
+defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Min" 80
+
+# if these cause problems, defaults delete ...
 
 # ----- modify dock ------
 printf "Dock - Remove all default app icons and recent items\n"
