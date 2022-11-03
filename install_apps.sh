@@ -19,9 +19,11 @@ terminal-notifier -title "Terminal Notifier" -subtitle "Installed" -message "pls
 printf "brew: Installing cli packages\n"
 FORMULAE=(
     brew-cask-completion
+    chruby
     git
     gh
     parallel
+    ruby-install
     wget
 )
 brew install --formula $FORMULAE
