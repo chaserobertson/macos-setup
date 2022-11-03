@@ -8,7 +8,9 @@ These scripts will work on a freshly installed MacOS device. It uses [Homebrew](
 
 # Steps
 
-- sh apply_os_settings.sh
+- `sh apply_os_settings.sh`
 - reboot
-- sh install_apps.sh
+- `sh install_apps.sh`
 - reboot
+
+New OS defaults domain/keys can be discovered with `diff.sh`
