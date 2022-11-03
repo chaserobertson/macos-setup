@@ -32,10 +32,15 @@ CASKS=(
     balenaetcher
     bitwarden
     firefox
+    forticlient-vpn
     google-chrome
     google-drive
+    grammarly
+    istat-menus
     libreoffice
+    powershell
     rectangle
+    rstudio
     spotify
     virtualbox
     virtualbox-extension-pack
