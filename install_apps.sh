@@ -1,40 +1,61 @@
-#! /usr/bin/env bash
+#!/bin/bash
 
-gem install terminal-notifier
-terminal-notifier -title "Terminal Notifier" -subtitle "Installed" -message "pls allow"
-
-# Installs Homebrew software.
-if ! command -v brew > /dev/null; then
-    ruby -e "$(curl --location --fail --show-error https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    export PATH="/usr/local/bin:$PATH"
-    printf "export PATH=\"/usr/local/bin:$PATH\"\n" >> $HOME/.bash_profile
-fi
-
-printf "Updating brew\n"
-brew upgrade && brew update
+sudo -v
 
 printf "Installing xcode cli utils\n"
 xcode-select --install
 
+printf "Installing homebrew\n"
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+printf "Updating brew\n"
+brew upgrade && brew update
+brew upgrade --cask && brew update --cask
+
+brew install terminal-notifier
+terminal-notifier -title "Terminal Notifier" -subtitle "Installed" -message "pls allow"
+
 printf "brew: Installing cli packages\n"
-brew install git
-brew install wget
-brew install python3
+FORMULAE=(
+    brew-cask-completion
+    git
+    gh
+    wget
+    wireshark
+)
+brew install --formula $FORMULAE
 
 printf "brew: Installing apps\n"
-brew install balenaetcher &
-brew install firefox &
-brew install gh &
-brew install google-drive &
-brew install google-chrome &
-brew install spotify &
-brew install terminal-notifier &
-brew install virtualbox &
-brew install virtualbox-extension-pack &
-brew install visual-studio-code &
-brew install vlc &
-brew install windscribe &
-brew install wireshark &
-brew install zoomus
+CASKS=(
+    authy
+    balance-lock
+    balenaetcher
+    bitwarden
+    firefox
+    google-chrome
+    google-drive
+    libreoffice
+    rectangle
+    spotify
+    virtualbox
+    virtualbox-extension-pack
+    visual-studio-code
+    vlc
+    windscribe
+    zoom
+)
+brew install --cask $CASKS
+
+printf "Chrome autoupdate and Logi Options install"
+bash chrome-autoupdate.sh & brew install homebrew/cask-drivers/logi-options-plus
+
+printf "Installing miniconda"
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/Downloads/miniconda.sh
+bash ~/Downloads/miniconda.sh -b -u -p ~/miniconda3
+~/miniconda3/bin/conda init zsh
+
+terminal-notifier -title "Github CLI Installed" -message "Log in"
+open -a "Google Chrome" --args --make-default-browser
+gh auth login
 
 terminal-notifier -title "App Installer" -subtitle "Finished" -message "Restart now?" -execute reboot

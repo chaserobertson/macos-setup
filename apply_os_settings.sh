@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/bin/bash
 
 # Apply machine hostname
 read -p "What is this machine's label (Example: \"ernie\")? " mac_os_label
@@ -24,30 +24,24 @@ sudo dscl . -delete /Users/Guest
 sudo security delete-generic-password -a Guest -s com.apple.loginwindow.guest-account -D "application password" /Library/Keychains/System.keychain
 sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool FALSE
 
+
 # Applies system and application defaults.
 
-printf "System - Enaling Dark mode\n"
-defaults write NSGlobalDomain AppleInterfaceStyle Dark
-
-printf "System - Disable boot sound effects\n"
+printf "System - Disable boot sound effects and power chime\n"
 sudo nvram SystemAudioVolume=" "
+defaults write com.apple.PowerChime ChimeOnAllHardware -bool false
 
-printf "System - Expand save panel by default\n"
+printf "System - Expand save panel and disable quarantine\n"
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-
-printf "System - Disable the 'Are you sure you want to open this application?' dialog\n"
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
-printf "System - Disable auto-correct\n"
+printf "System - Disable smart quotes dashes and autocorrect\n"
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
-printf "System - Disable smart quotes (not useful when writing code)\n"
-defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
-
-printf "System - Disable smart dashes (not useful when writing code)\n"
-defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
-
-printf "System - Require password immediately after sleep or screen saver begins\n"
+printf "System - Require password immediately after sleep begins\n"
+defaults write -currentHost com.apple.screensaver idleTime -int 0
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 
@@ -55,86 +49,78 @@ printf "System - Avoid creating .DS_Store files on network & USB volumes\n"
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
-printf "System - Don't chime when power is plugged in\n"
-defaults write com.apple.PowerChime ChimeOnAllHardware -bool false
-
-printf "System - Disable autocorrect\n"
-defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
-
 printf "System - Disable Bonjour\n"
 sudo defaults write /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist ProgramArguments -array-add "-NoMulticastAdvertisements"
 
-printf "Bluetooth - Increase sound quality for headphones/headsets\n"
-defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" 50
-defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool Min (editable)" 50
-defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Min" 50
 
-# if these cause problems, defaults delete ...
+# Customised from options at https://macos-defaults.com/
 
-# ----- modify dock ------
-printf "Dock - Remove all default app icons and recent items\n"
-defaults write com.apple.dock static-only -bool TRUE
-
-printf "Dock - Automatically hide and show\n"
+printf "Customise Dock\n"
+defaults write com.apple.dock static-only -bool true
+defaults write com.apple.dock mineffect -string "scale"
 defaults write com.apple.dock autohide -bool true
-
-printf "Dock - Remove the auto-hiding delay\n"
 defaults write com.apple.dock autohide-delay -float 0
-
-printf "Dock - Don't show Dashboard as a Space\n"
-defaults write com.apple.dock "dashboard-in-overlay" -bool true
-
+defaults write com.apple.dock autohide-time-modifier -float 0
 killall Dock
 
-# ------------------------
+printf "Customise Screenshots\n"
+defaults write com.apple.screencapture "disable-shadow" -bool "true" 
+defaults write com.apple.screencapture "location" -string "~/Downloads"
+killall SystemUIServer
 
-printf "iCloud - Save to disk by default\n"
-defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+printf "Customise Safari\n"
+defaults write com.apple.safari "ShowFullURLInSmartSearchField" -bool "true"
+killall Safari
 
-# ----- modify finder ------
-
-printf "Finder - Show the $HOME/Library folder\n"
+printf "Customise Finder\n"
 chflags nohidden $HOME/Library
-
-#printf "Finder - Show hidden files\n"
-#defaults write com.apple.finder AppleShowAllFiles -bool true
-
-printf "Finder - Show filename extensions\n"
-defaults write NSGlobalDomain AppleShowAllExtensions -bool true
-
-printf "Finder - Show path bar\n"
-defaults write com.apple.finder ShowPathbar -bool true
-
-printf "Finder - Show status bar\n"
 defaults write com.apple.finder ShowStatusBar -bool true
-
-printf "Finder - Use list view in all Finder windows\n"
-defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
-
-printf "Finder - Allow text selection in Quick Look\n"
 defaults write com.apple.finder QLEnableTextSelection -bool true
-
+defaults write com.apple.finder "QuitMenuItem" -bool "true"
+defaults write NSGlobalDomain "AppleShowAllExtensions" -bool "true"
+defaults write com.apple.finder "ShowPathbar" -bool "true"
+defaults write com.apple.finder "FXPreferredViewStyle" -string "clmv"
+defaults write com.apple.finder "FXDefaultSearchScope" -string "SCcf"
+defaults write com.apple.finder "FXRemoveOldTrashItems" -bool "true"
+defaults write com.apple.finder "FXEnableExtensionChangeWarning" -bool "false"
+defaults write NSGlobalDomain "NSDocumentSaveNewDocumentsToCloud" -bool "false" 
+defaults write NSGlobalDomain "NSTableViewDefaultSizeMode" -int "1"
 killall Finder
+
+printf "Customise Menu Bar\n"
+defaults write com.apple.menuextra.clock "DateFormat" -string "EEE d MMM HH:mm:ss"
+defaults write com.apple.controlcenter "NSStatusItem Visible Battery" -bool "true" 
+defaults write com.apple.controlcenter "NSStatusItem Visible BentoBox" -bool "true" 
+defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -bool "true" 
+defaults write com.apple.controlcenter "NSStatusItem Visible Clock" -bool "true" 
+defaults write com.apple.controlcenter "NSStatusItem Visible KeyboardBrightness" -bool "true" 
+defaults write com.apple.controlcenter "NSStatusItem Visible NowPlaying" -bool "true" 
+defaults write com.apple.controlcenter "NSStatusItem Visible Sound" -bool "true" 
+defaults write com.apple.controlcenter "NSStatusItem Visible WiFi" -bool "true" 
+
+defaults -currentHost write com.apple.controlcenter "Battery" -int "3"
+defaults -currentHost write com.apple.controlcenter "BatteryShowPercentage" -bool "true"
+defaults -currentHost write com.apple.controlcenter "Bluetooth" -int "18"
+defaults -currentHost write com.apple.controlcenter "KeyboardBrightness" -int "8"
+defaults -currentHost write com.apple.controlcenter "Sound" -int "16"
+
+printf "Customise Misc\n"
+defaults write com.apple.TimeMachine "DoNotOfferNewDisksForBackup" -bool "true" 
+defaults write com.apple.ActivityMonitor "IconType" -int "6"
+defaults write com.apple.ActivityMonitor "UpdatePeriod" -int "2"
+killall Activity\ Monitor
+
 
 # --------------------------
 
-printf "TextEdit - Use plain text mode for new documents\n"
+printf "TextEdit\n"
 defaults write com.apple.TextEdit RichText -int 0
-
-printf "TextEdit - Open and save files as UTF-8 encoding\n"
 defaults write com.apple.TextEdit PlainTextEncoding -int 4
 defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
 
-printf "Printer - Expand print panel by default\n"
+printf "Printer\n"
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
-
-printf "Printer - Automatically quit printer app once the print jobs complete\n"
 defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
-printf "Game Center - Disable Game Center\n"
+printf "Game Center off\n"
 defaults write com.apple.gamed Disabled -bool true
-
-printf "Menu Bar - Enable 24-hr time\n"
-defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM HH:mm:ss"
-
-gh auth login
