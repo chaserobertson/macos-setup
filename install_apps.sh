@@ -79,7 +79,12 @@ printf "Chrome autoupdate"
 zsh chrome-autoupdate.sh
 open -a "Google Chrome" chrome://settings/help --args --make-default-browser 
 
-terminal-notifier -title "Github CLI Installed" -message "Log in"
+terminal-notifier -title "App Installer" -subtitle "Github CLI Installed" -message "Log in"
 gh auth login
 
-terminal-notifier -title "App Installer" -subtitle "Finished" -message "Restart now?" -execute reboot
+ruby-install ruby
+echo "source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh" >> ~/.zshrc
+echo "source $(brew --prefix)/opt/chruby/share/chruby/auto.sh" >> ~/.zshrc
+echo "chruby ruby-3.1.2" >> ~/.zshrc
+
+terminal-notifier -title "App Installer Finished" -subtitle "Don't forget - gem install jekyll bundler" -message "Restart now?" -execute reboot
