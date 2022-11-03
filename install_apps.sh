@@ -1,17 +1,18 @@
-#!/bin/bash
+#!/bin/zsh
 
 sudo -v
 
 printf "Installing xcode cli utils\n"
 xcode-select --install
 
-printf "Installing homebrew\n"
-NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if ! command -v brew > /dev/null; then
+    printf "Installing homebrew\n"
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
 
-printf "Updating brew\n"
+printf "Updating brew and installing notifier\n"
 brew upgrade && brew update
 brew upgrade --cask && brew update --cask
-
 brew install terminal-notifier
 terminal-notifier -title "Terminal Notifier" -subtitle "Installed" -message "pls allow"
 
@@ -20,12 +21,15 @@ FORMULAE=(
     brew-cask-completion
     git
     gh
+    parallel
     wget
-    wireshark
 )
 brew install --formula $FORMULAE
 
-printf "brew: Installing apps\n"
+git config --global user.email chaserobertson208@gmail.com
+git config --global user.name Chase Robertson
+mkdir .parallel && touch .parallel/will-cite
+
 CASKS=(
     authy
     balance-lock
@@ -38,29 +42,42 @@ CASKS=(
     grammarly
     istat-menus
     libreoffice
+    homebrew/cask-drivers/logi-options-plus
     powershell
     rectangle
+    r
     rstudio
     spotify
     virtualbox
     virtualbox-extension-pack
     visual-studio-code
     vlc
-    windscribe
+    wireshark
     zoom
 )
+printf "brew: Fetching apps\n"
+parallel -j ${#CASKS[@]} 'brew fetch -q --cask {}' ::: $CASKS
+
+printf "brew: Installing apps\n"
 brew install --cask $CASKS
 
-printf "Chrome autoupdate and Logi Options install"
-bash chrome-autoupdate.sh & brew install homebrew/cask-drivers/logi-options-plus
+if ! command -v brew > /dev/null; then
+    printf "Installing miniconda"
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/Downloads/miniconda.sh
+    bash ~/Downloads/miniconda.sh -b -u -p ~/miniconda3
+    ~/miniconda3/bin/conda init zsh
+fi
 
-printf "Installing miniconda"
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/Downloads/miniconda.sh
-bash ~/Downloads/miniconda.sh -b -u -p ~/miniconda3
-~/miniconda3/bin/conda init zsh
+if [ ! -e /Applications/logioptionsplus.app ]; then
+    open /usr/local/Caskroom/logi-options-plus/latest/logioptionsplus_installer.app
+fi
+
+
+printf "Chrome autoupdate"
+zsh chrome-autoupdate.sh
+open -a "Google Chrome" chrome://settings/help --args --make-default-browser 
 
 terminal-notifier -title "Github CLI Installed" -message "Log in"
-open -a "Google Chrome" --args --make-default-browser
 gh auth login
 
 terminal-notifier -title "App Installer" -subtitle "Finished" -message "Restart now?" -execute reboot
