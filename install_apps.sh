@@ -43,6 +43,7 @@ CASKS=(
     google-drive
     grammarly
     istat-menus
+    julia
     libreoffice
     homebrew/cask-drivers/logi-options-plus
     powershell
