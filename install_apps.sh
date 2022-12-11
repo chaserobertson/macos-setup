@@ -18,6 +18,7 @@ terminal-notifier -title "Terminal Notifier" -subtitle "Installed" -message "pls
 
 printf "brew: Installing cli packages\n"
 FORMULAE=(
+    aws
     brew-cask-completion
     chruby
     git
