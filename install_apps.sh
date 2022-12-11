@@ -71,10 +71,16 @@ if ! command -v brew > /dev/null; then
     ~/miniconda3/bin/conda init zsh
 fi
 
-if [ ! -e /Applications/logioptionsplus.app ]; then
-    open /usr/local/Caskroom/logi-options-plus/latest/logioptionsplus_installer.app
+if ! command -v Rscript > /dev/null; then
+    printf "Linking R to jupyter"
+    Rscript -e "install.packages('IRkernel', repos='https://cloud.r-project.org/')"
+    Rscript -e "IRkernel::installspec(user = FALSE)"
 fi
 
+if [ ! -e /Applications/logioptionsplus.app ]; then
+    printf "Installing Logi Options+"
+    open /usr/local/Caskroom/logi-options-plus/latest/logioptionsplus_installer.app
+fi
 
 printf "Chrome autoupdate"
 zsh chrome-autoupdate.sh
