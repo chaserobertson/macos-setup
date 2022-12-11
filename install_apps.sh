@@ -38,6 +38,7 @@ CASKS=(
     balance-lock
     balenaetcher
     bitwarden
+    docker
     firefox
     forticlient-vpn
     google-chrome
