@@ -64,6 +64,10 @@ parallel -j ${#CASKS[@]} 'brew fetch -q --cask {}' ::: $CASKS
 printf "brew: Installing apps\n"
 brew install --cask $CASKS
 
+printf "Installing terraform autocomplete"
+touch ~/.zshrc
+terraform -install-autocomplete
+
 if ! command -v brew > /dev/null; then
     printf "Installing miniconda"
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/Downloads/miniconda.sh
