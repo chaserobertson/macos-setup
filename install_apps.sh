@@ -24,6 +24,7 @@ FORMULAE=(
     gh
     parallel
     ruby-install
+    terraform
     wget
 )
 brew install --formula $FORMULAE
