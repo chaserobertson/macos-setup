@@ -66,6 +66,7 @@ brew install --cask $CASKS
 
 printf "Installing terraform autocomplete"
 touch ~/.zshrc
+echo "autoload -Uz compinit\ncompinit" >> ~/.zshrc
 terraform -install-autocomplete
 
 if ! command -v brew > /dev/null; then
