@@ -49,6 +49,7 @@ CASKS=(
     libreoffice
     homebrew/cask-drivers/logi-options-plus
     powershell
+    mactex
     rectangle
     r
     rstudio
