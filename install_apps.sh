@@ -50,6 +50,7 @@ CASKS=(
     homebrew/cask-drivers/logi-options-plus
     powershell
     mactex
+    macvim
     rectangle
     r
     rstudio
