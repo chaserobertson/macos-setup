@@ -23,6 +23,7 @@ FORMULAE=(
     chruby
     git
     gh
+    pandoc
     parallel
     ruby-install
     terraform
