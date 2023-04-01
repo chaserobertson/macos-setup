@@ -40,7 +40,6 @@ CASKS=(
     balance-lock
     balenaetcher
     bitwarden
-    boinc
     docker
     firefox
     forticlient-vpn
@@ -91,11 +90,6 @@ fi
 if [ ! -e /Applications/logioptionsplus.app ]; then
     printf "Installing Logi Options+"
     open /usr/local/Caskroom/logi-options-plus/latest/logioptionsplus_installer.app
-fi
-
-if [ -e /Applications/BOINCManager.app ]; then
-    printf "Removing BOINC Manager from Dock"
-    sudo plutil -insert NSUIElement -string 1 /Applications/BOINCManager.app/Contents/Info.plist
 fi
 
 printf "Chrome autoupdate"
