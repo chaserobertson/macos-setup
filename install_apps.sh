@@ -95,10 +95,7 @@ fi
 
 if [ -e /Applications/BOINCManager.app ]; then
     printf "Removing BOINC Manager from Dock"
-    INFO="/Applications/BOINCManager.app/Contents/Info.plist"
-    sudo cp $INFO $INFO.bak
-    awk -v LM="</dict>" '$1==LM {print "\t<key>NSUIElement</key>\n\t<string>1</string>"} {print}' \
-    $INFO.bak | sudo tee $INFO > /dev/null
+    sudo plutil -insert NSUIElement -string 1 /Applications/BOINCManager.app/Contents/Info.plist
 fi
 
 printf "Chrome autoupdate"
