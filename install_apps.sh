@@ -40,6 +40,7 @@ CASKS=(
     balance-lock
     balenaetcher
     bitwarden
+    boinc
     docker
     firefox
     forticlient-vpn
