@@ -22,6 +22,7 @@ FORMULAE=(
     brew-cask-completion
     chruby
     git
+    git-lfs
     gh
     pandoc
     parallel
