@@ -18,12 +18,11 @@ terminal-notifier -title "Terminal Notifier" -subtitle "Installed" -message "pls
 
 printf "brew: Installing cli packages\n"
 FORMULAE=(
-    aws
+    awscli
     brew-cask-completion
     chruby
-    git
-    git-lfs
     gh
+    git
     pandoc
     parallel
     ruby-install
@@ -43,10 +42,8 @@ CASKS=(
     bitwarden
     docker
     firefox
-    forticlient-vpn
     google-chrome
     google-drive
-    grammarly
     julia
     libreoffice
     homebrew/cask-drivers/logi-options-plus
@@ -57,6 +54,7 @@ CASKS=(
     r
     rstudio
     spotify
+    steam
     virtualbox
     virtualbox-extension-pack
     visual-studio-code
