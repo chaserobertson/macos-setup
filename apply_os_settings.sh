@@ -1,20 +1,14 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Apply machine hostname
-read -p "What is this machine's label (Example: \"ernie\")? " mac_os_label
-if [[ -z "$mac_os_label" ]]; then
-    printf "ERROR: Invalid MacOS label.\n"
-    exit 1
-fi
-
-read -p "What is this machine's name (Example: \"ernie\")? " mac_os_name
+read "mac_os_name?What is this machine's name (Example: \"ernie\")? "
 if [[ -z "$mac_os_name" ]]; then
     printf "ERROR: Invalid MacOS name.\n"
     exit 1
 fi
 
 printf "Setting system label and name...\n"
-sudo scutil --set ComputerName $mac_os_label
+sudo scutil --set ComputerName $mac_os_name
 sudo scutil --set HostName $mac_os_name
 sudo scutil --set LocalHostName $mac_os_name
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $mac_os_name
