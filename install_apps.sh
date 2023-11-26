@@ -16,7 +16,9 @@ brew upgrade && brew update
 brew upgrade --cask && brew update --cask
 
 brew install terminal-notifier
-terminal-notifier -title "Terminal Notifier" -subtitle "Installed" -message "pls allow"
+terminal-notifier -title "Terminal Notifier" \
+    -subtitle "Installed" \
+    -message "pls allow notifications"
 
 FORMULAE=(
     awscli
@@ -75,31 +77,39 @@ done
 
 if ! command -v conda > /dev/null; then
     printf "Installing miniconda\n"
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/Downloads/miniconda.sh
+    curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o ~/Downloads/miniconda.sh
     bash ~/Downloads/miniconda.sh -b -u -p ~/miniconda3
     ~/miniconda3/bin/conda init zsh
 fi
 
-if ! command -v Rscript > /dev/null; then
+if command -v Rscript > /dev/null; then
     printf "Linking R to jupyter\n"
     Rscript -e "install.packages('IRkernel', repos='https://cloud.r-project.org/')"
+    conda install jupyter
     Rscript -e "IRkernel::installspec(user = FALSE)"
 fi
 
 OSA='tell app "Terminal"
    do script "gh auth login"
 end tell'
-terminal-notifier -title "App Installer" -subtitle "Github CLI Installed" \\
-    -message "click to login" -execute "osascript -e '$OSA'"
+terminal-notifier -title "App Installer" \
+    -subtitle "Github CLI Installed" \
+    -message "click to login" \
+    -execute "osascript -e '$OSA'"
 
-printf "Installing ruby\n"
-ruby-install ruby
-source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
-source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
-echo "source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh" >> ~/.zshrc
-echo "source $(brew --prefix)/opt/chruby/share/chruby/auto.sh" >> ~/.zshrc
-echo "chruby $(chruby | xargs)" >> ~/.zshrc
+if [[ ! -d ~/.rubies ]]; then
+    printf "Installing ruby\n"
+    ruby-install --no-reinstall --cleanup --jobs=8 ruby
+
+    source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
+    source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
+    
+    echo "source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh" >> ~/.zshrc
+    echo "source $(brew --prefix)/opt/chruby/share/chruby/auto.sh" >> ~/.zshrc
+    echo "chruby $(chruby | xargs)" >> ~/.zshrc
+fi
 
 terminal-notifier -title "App Installer Finished" \
     -subtitle "Don't forget - 'gem install jekyll bundler' after reboot!" \
-    -message "Restart now?" -execute reboot
+    -message "Restart now?" \
+    -execute reboot
