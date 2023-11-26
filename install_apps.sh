@@ -73,7 +73,7 @@ done
 # echo "autoload -Uz compinit\ncompinit" >> ~/.zshrc
 # terraform -install-autocomplete
 
-if ! command -v brew > /dev/null; then
+if ! command -v conda > /dev/null; then
     printf "Installing miniconda\n"
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/Downloads/miniconda.sh
     bash ~/Downloads/miniconda.sh -b -u -p ~/miniconda3
@@ -94,6 +94,8 @@ terminal-notifier -title "App Installer" -subtitle "Github CLI Installed" \\
 
 printf "Installing ruby\n"
 ruby-install ruby
+source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
+source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
 echo "source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh" >> ~/.zshrc
 echo "source $(brew --prefix)/opt/chruby/share/chruby/auto.sh" >> ~/.zshrc
 echo "chruby $(chruby | xargs)" >> ~/.zshrc
