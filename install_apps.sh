@@ -23,12 +23,10 @@ terminal-notifier -title "Terminal Notifier" \
 FORMULAE=(
     awscli
     brew-cask-completion
-    chruby
     gh
     git
     pandoc
     parallel
-    ruby-install
     terraform
     wget
 )
@@ -50,6 +48,7 @@ CASKS=(
     powershell
     mactex
     macvim
+    miniconda
     rectangle
     r
     rstudio
@@ -70,25 +69,6 @@ do
     brew install --cask $app
 done
 
-# printf "Installing terraform autocomplete"
-# touch ~/.zshrc
-# echo "autoload -Uz compinit\ncompinit" >> ~/.zshrc
-# terraform -install-autocomplete
-
-if ! command -v conda > /dev/null; then
-    printf "Installing miniconda\n"
-    curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o ~/Downloads/miniconda.sh
-    bash ~/Downloads/miniconda.sh -b -u -p ~/miniconda3
-    ~/miniconda3/bin/conda init zsh
-fi
-
-if command -v Rscript > /dev/null; then
-    printf "Linking R to jupyter\n"
-    Rscript -e "install.packages('IRkernel', repos='https://cloud.r-project.org/')"
-    conda install jupyter
-    Rscript -e "IRkernel::installspec(user = FALSE)"
-fi
-
 OSA='tell app "Terminal"
    do script "gh auth login"
 end tell'
@@ -97,17 +77,23 @@ terminal-notifier -title "App Installer" \
     -message "click to login" \
     -execute "osascript -e '$OSA'"
 
-if [[ ! -d ~/.rubies ]]; then
-    printf "Installing ruby\n"
-    ruby-install --no-reinstall --cleanup --jobs=8 ruby
-
-    source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
-    source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
-    
-    echo "source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh" >> ~/.zshrc
-    echo "source $(brew --prefix)/opt/chruby/share/chruby/auto.sh" >> ~/.zshrc
-    echo "chruby $(chruby | xargs)" >> ~/.zshrc
+if command -v conda > /dev/null; then
+    printf "Initialising conda\n"
+    conda init zsh
+    exec zsh -l
+    conda install -y jupyter
 fi
+
+if command -v Rscript > /dev/null; then
+    printf "Linking R to jupyter\n"
+    Rscript -e "install.packages('IRkernel', repos='https://cloud.r-project.org/')"
+    Rscript -e "IRkernel::installspec(user = FALSE)"
+fi
+
+# printf "Installing terraform autocomplete"
+# touch ~/.zshrc
+# echo "autoload -Uz compinit\ncompinit" >> ~/.zshrc
+# terraform -install-autocomplete
 
 terminal-notifier -title "App Installer Finished" \
     -subtitle "Don't forget - 'gem install jekyll bundler' after reboot!" \
