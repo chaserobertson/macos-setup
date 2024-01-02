@@ -45,6 +45,7 @@ CASKS=(
     julia
     libreoffice
     logi-options-plus
+    logitech-g-hub
     powershell
     mactex
     macvim
