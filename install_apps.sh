@@ -34,7 +34,6 @@ printf "brew: Installing cli packages\n"
 brew install --formula $FORMULAE
 
 CASKS=(
-    authy
     balance-lock
     balenaetcher
     bitwarden
